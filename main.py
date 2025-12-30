@@ -24,10 +24,15 @@ class NBPConnector:
         except Exception as e:
             print(f"Błąd połączenia: {e}")
             return None
+        
+    def save_to_json(self,data,filename): 
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=4)
 
 # --- CZĘŚĆ WYKONAWCZA (To co się dzieje "na hali") ---
 
 if __name__ == "__main__":
+
     # 1. Tworzymy obiekt (Instancję). Wyjmujemy urządzenie z pudełka.
     connector = NBPConnector()
     
@@ -44,4 +49,3 @@ if __name__ == "__main__":
                 print(f"{currency['code']}: {currency['mid']} PLN")
     else:
         print("Nie udało się pobrać danych.")
-        
