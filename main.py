@@ -1,6 +1,7 @@
 import requests
 import json
-
+import os
+print(f"TUTAJ JESTEM: {os.getcwd()}")
 # Definicja KLASY (Schemat urządzenia)
 class NBPConnector:
     
@@ -30,22 +31,19 @@ class NBPConnector:
             json.dump(data, f, indent=4)
 
 # --- CZĘŚĆ WYKONAWCZA (To co się dzieje "na hali") ---
-
 if __name__ == "__main__":
-
-    # 1. Tworzymy obiekt (Instancję). Wyjmujemy urządzenie z pudełka.
+    # 1. Tworzenie obiektu
     connector = NBPConnector()
     
-    # 2. Używamy metody tego obiektu.
-    print("Łączenie z NBP...")
-    data = connector.get_rates()
+    # 2. Pobieranie danych
+    rates = connector.get_rates()
     
-    # 3. Przetwarzamy wynik (jeśli coś przyszło)
-    if data:
-        print("Pobrano kursy walut:")
-        # Wyświetlamy np. USD (zazwyczaj jest pierwszy lub drugi, szukamy pętlą dla pewności)
-        for currency in data:
-            if currency['code'] in ['USD', 'EUR']:
-                print(f"{currency['code']}: {currency['mid']} PLN")
+    if rates:
+        print("Pobrano dane, zapisuję...")
+        
+        # 3. WYWOŁANIE TWOJEJ NOWEJ FUNKCJI (Tego brakowało!)
+        # Przekazujemy: dane (rates) i nazwę pliku ("kursy.json")
+        connector.save_to_json(rates, "kursy.json")
+        
     else:
-        print("Nie udało się pobrać danych.")
+        print("Błąd: Nie udało się pobrać danych")
